@@ -19,14 +19,19 @@ export class EmployeeDetailComponent implements OnInit {
   firstName: string;
   employeeId: number;
   employeeForm: FormGroup;
+  editEmployeeForm: FormGroup;
   isSubmitted = false;
   employeeInput = false;
+  employeeInputEdit = false;
+  employeesEdit: any;
+  editForm: number;
 
   constructor(
     private employeeService: EmployeeService,
     private formBuilder: FormBuilder
   ) {
     this.createEmployeeForm();
+    this.employeeFormEdit();
   }
 
   ngOnInit(): void {
@@ -68,6 +73,38 @@ export class EmployeeDetailComponent implements OnInit {
       join_date: ['', [Validators.required]],
       job_title: ['', [Validators.required]],
       manager_id: ['', [Validators.required]],
+    });
+  }
+
+  employeeFormEdit() {
+    this.editEmployeeForm = this.formBuilder.group({
+      first_name_edit: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(2),
+          Validators.pattern('^[_A-z0-9]*((-|s)*[_A-z0-9])*$'),
+        ],
+      ],
+      last_name_edit: ['', [Validators.required]],
+      email_edit: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$'),
+        ],
+      ],
+      phone_no_edit: [
+        '',
+        [
+          Validators.required,
+          Validators.maxLength(12),
+          Validators.pattern('^[0-9]+$'),
+        ],
+      ],
+      join_date_edit: ['', [Validators.required]],
+      job_title_edit: ['', [Validators.required]],
+      manager_id_edit: ['', [Validators.required]],
     });
   }
 
@@ -127,5 +164,69 @@ export class EmployeeDetailComponent implements OnInit {
     this.employeeService
       .createEmployee(this.employeeForm.value)
       .subscribe((response) => {});
+  }
+
+  editEmployee(id) {
+    this.editForm = id;
+    this.employeeInputEdit = !this.employeeInputEdit;
+    this.employeeService.getEmployeeDetail(id).subscribe((response) => {
+      this.employeesEdit = response.data;
+      this.editEmployeeForm.patchValue({
+        first_name_edit: this.employeesEdit.first_name,
+        last_name_edit: this.employeesEdit.last_name,
+        email_edit: this.employeesEdit.email,
+        phone_no_edit: this.employeesEdit.phone_no,
+        join_date_edit: this.employeesEdit.join_date,
+        job_title_edit: this.employeesEdit.job_title,
+        manager_id_edit: this.employeesEdit.manager_id,
+      });
+    });
+  }
+
+  get first_name_edit(): FormControl {
+    return this.editEmployeeForm.get('first_name_edit') as FormControl;
+  }
+
+  get last_name_edit(): FormControl {
+    return this.editEmployeeForm.get('last_name_edit') as FormControl;
+  }
+
+  get email_edit(): FormControl {
+    return this.editEmployeeForm.get('email_edit') as FormControl;
+  }
+
+  get phone_no_edit(): FormControl {
+    return this.editEmployeeForm.get('phone_no_edit') as FormControl;
+  }
+
+  get join_date_edit(): FormControl {
+    return this.editEmployeeForm.get('join_date_edit') as FormControl;
+  }
+
+  get job_title_edit(): FormControl {
+    return this.editEmployeeForm.get('job_title_edit') as FormControl;
+  }
+
+  get manager_id_edit(): FormControl {
+    return this.editEmployeeForm.get('manager_id_edit') as FormControl;
+  }
+
+  onSubmitEdit() {
+    const data = {
+      first_name: this.editEmployeeForm.value.first_name_edit,
+      last_name: this.editEmployeeForm.value.last_name_edit,
+      email: this.editEmployeeForm.value.email_edit,
+      phone_no: this.editEmployeeForm.value.phone_no_edit,
+      join_date: this.editEmployeeForm.value.join_date_edit,
+      job_title: this.editEmployeeForm.value.job_title_edit,
+      manager_id: this.editEmployeeForm.value.manager_id_edit,
+    };
+
+    this.employeeService
+      .updateEmployee(this.editForm, data)
+      .subscribe((response) => {
+        this.getList();
+        this.employeeInputEdit = !this.employeeInputEdit;
+      });
   }
 }

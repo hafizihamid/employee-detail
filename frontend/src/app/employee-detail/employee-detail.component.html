@@ -1,6 +1,6 @@
 <section class="hero">
   <div class="hero-body">
-    <div style="margin-bottom: 20px">
+    <div *ngIf="!employeeInputEdit" style="margin-bottom: 20px">
       <p class="title">Add new employee</p>
       <button (click)="showEmployeeForm()" class="button is-success">
         <span class="icon">
@@ -160,6 +160,158 @@
         </form>
       </div>
     </div>
+    <div *ngIf="employeeInputEdit" style="margin-bottom: 20px">
+      <p class="title">Edit employee</p>
+      <div class="column is-6 form">
+        <form [formGroup]="editEmployeeForm" (ngSubmit)="onSubmitEdit()">
+          <div class="field">
+            <label class="label">First Name</label>
+            <div class="control">
+              <input
+                formControlName="first_name_edit"
+                class="input"
+                type="text"
+                placeholder="please enter first name"
+              />
+            </div>
+            <p class="help is-danger">
+              <span
+                *ngIf="
+                  first_name_edit.invalid &&
+                  (first_name_edit.dirty || first_name_edit.touched)
+                "
+                >first name was invalid/required</span
+              >
+            </p>
+          </div>
+          <div class="field">
+            <label class="label">Last Name</label>
+            <div class="control">
+              <input
+                formControlName="last_name_edit"
+                class="input"
+                type="text"
+                placeholder="please enter last name"
+              />
+            </div>
+            <p class="help is-danger">
+              <span
+                *ngIf="
+                  last_name_edit.invalid &&
+                  (last_name_edit.dirty || last_name_edit.touched)
+                "
+                >last name was invalid/required</span
+              >
+            </p>
+          </div>
+          <div class="field">
+            <label class="label">Email</label>
+            <div class="control">
+              <input
+                formControlName="email_edit"
+                class="input"
+                type="text"
+                placeholder="abc@gmail.com"
+              />
+            </div>
+            <p class="help is-danger">
+              <span
+                *ngIf="
+                  email_edit.invalid && (email_edit.dirty || email_edit.touched)
+                "
+                >email was invalid/required</span
+              >
+            </p>
+          </div>
+          <div class="field">
+            <label class="label">Mobile Number</label>
+            <div class="control">
+              <input
+                formControlName="phone_no_edit"
+                class="input"
+                type="text"
+                placeholder="please enter mobile number"
+              />
+            </div>
+            <p class="help is-danger">
+              <span
+                *ngIf="
+                  phone_no_edit.invalid &&
+                  (phone_no_edit.dirty || phone_no_edit.touched)
+                "
+                >mobile number was invalid/required</span
+              >
+            </p>
+          </div>
+          <div class="field">
+            <label class="label">Join Date</label>
+            <div class="control">
+              <input
+                formControlName="join_date_edit"
+                class="input"
+                type="text"
+                placeholder="YYYY-MM-DD"
+              />
+            </div>
+            <p class="help is-danger">
+              <span
+                *ngIf="
+                  join_date_edit.invalid &&
+                  (join_date_edit.dirty || join_date_edit.touched)
+                "
+                >date was invalid/required</span
+              >
+            </p>
+          </div>
+          <div class="field">
+            <label class="label">Job Title</label>
+            <div class="control">
+              <input
+                formControlName="job_title_edit"
+                class="input"
+                type="text"
+                placeholder="please enter job title"
+              />
+            </div>
+            <p class="help is-danger">
+              <span
+                *ngIf="
+                  job_title_edit.invalid &&
+                  (job_title_edit.dirty || job_title_edit.touched)
+                "
+                >job title was invalid/required</span
+              >
+            </p>
+          </div>
+
+          <div class="field">
+            <label class="label">Manager Id</label>
+            <div class="control">
+              <input
+                formControlName="manager_id_edit"
+                class="input"
+                type="text"
+                placeholder="MA12345T"
+              />
+            </div>
+            <p class="help is-danger">
+              <span
+                *ngIf="
+                  manager_id_edit.invalid &&
+                  (manager_id_edit.dirty || manager_id_edit.touched)
+                "
+                >manager id was invalid/required</span
+              >
+            </p>
+          </div>
+          <div class="field is-grouped">
+            <div class="control">
+              <button class="button is-link">Submit</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
     <p class="title">List of employees</p>
     <table
       class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth"
@@ -189,7 +341,10 @@
           <td>{{ employee.job_title }}</td>
           <td>{{ employee.manager_id }}</td>
           <td class="has-text-centered">
-            <button class="button is-success">
+            <button
+              (click)="editEmployee(employee.id)"
+              class="button is-success"
+            >
               <span class="icon is-small">
                 <i class="fas fa-edit"></i>
               </span>

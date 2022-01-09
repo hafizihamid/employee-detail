@@ -31,9 +31,9 @@ export class EmployeeService {
       .pipe(catchError(this.errorHandler));
   }
 
-  getEmployeeDetail(id: number): Observable<EmployeeDetail> {
+  getEmployeeDetail(id: number): Observable<any> {
     return this.httpClient
-      .get<EmployeeDetail>(`${this.apiUrl}/detail/` + id)
+      .get<any>(`${this.apiUrl}/${id}/details`)
       .pipe(catchError(this.errorHandler));
   }
 
@@ -43,9 +43,9 @@ export class EmployeeService {
       .pipe(catchError(this.errorHandler));
   }
 
-  updateEmployee(employee: EmployeeDetail): Observable<EmployeeDetail> {
+  updateEmployee(id: number, employee: any): Observable<any> {
     return this.httpClient
-      .put<EmployeeDetail>(`${this.apiUrl}/update`, employee, this.httpOptions)
+      .post<any>(`${this.apiUrl}/${id}/update`, employee, this.httpOptions)
       .pipe(catchError(this.errorHandler));
   }
 

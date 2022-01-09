@@ -29,9 +29,9 @@ class EmployeesRequest extends FormRequest
             'id' => 'numeric|exists:employees,id',
         ];
 
-        if ($routeName == 'create' || $routeName == 'update') {
-            $rules['first_name'] = 'required|regex:/^[a-zA-Z0-9]+$/';
-            $rules['last_name'] = 'required|regex:/^[a-zA-Z0-9]+$/';
+        if ($routeName == 'create') {
+            $rules['first_name'] = 'required';
+            $rules['last_name'] = 'required';
             $rules['email'] = 'required|email|unique:employees';
             $rules['phone_no'] = 'required';
             $rules['join_date'] = 'required|date_format:Y-m-d';
