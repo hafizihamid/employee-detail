@@ -21,7 +21,7 @@ class CreateEmployeesTable extends Migration
             $table->string('phone_no');
             $table->date('join_date');
             $table->string('job_title');
-            $table->integer('manager_id');
+            $table->string('manager_id');
             $table->timestamps();
         });
     }

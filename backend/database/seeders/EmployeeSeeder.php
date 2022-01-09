@@ -21,10 +21,10 @@ class EmployeeSeeder extends Seeder
             "first_name" => $faker->name(),
             "last_name" => $faker->name(),
             "email" => $faker->safeEmail,
-            "phone_no" => $faker->numerify('+601#########'),
+            "phone_no" => $faker->numerify('601#########'),
             "join_date" =>  $faker->date('Y_m_d'),
             "job_title" => $faker->randomElement(["developer manager", "general manager"]),
-            "manager_id" => $faker->numberBetween(25, 50),
+            "manager_id" => $faker->numerify('MA#####'),
             "updated_at" => $faker->dateTimeBetween('-1 week', '+1 week'),
             "created_at" => $faker->dateTimeBetween('-1 week', '+1 week'),
         ]);
