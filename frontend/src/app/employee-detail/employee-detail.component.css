@@ -1,0 +1,9 @@
+.form {
+  margin-left: -12px !important;
+}
+
+.btn_disabled {
+  opacity: 50%;
+  cursor: not-allowed;
+  pointer-events: none;
+}

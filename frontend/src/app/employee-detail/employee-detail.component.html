@@ -1,0 +1,232 @@
+<section class="hero">
+  <div class="hero-body">
+    <div style="margin-bottom: 20px">
+      <p class="title">Add new employee</p>
+      <button (click)="showEmployeeForm()" class="button is-success">
+        <span class="icon">
+          <i class="fas fa-user-plus"></i>
+        </span>
+        <span>Add User</span>
+      </button>
+      <div *ngIf="employeeInput" class="column is-6 form">
+        <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()">
+          <div class="field">
+            <label class="label">First Name</label>
+            <div class="control">
+              <input
+                formControlName="first_name"
+                class="input"
+                type="text"
+                placeholder="please enter first name"
+              />
+            </div>
+            <p class="help is-danger">
+              <span
+                *ngIf="
+                  first_name.invalid && (first_name.dirty || first_name.touched)
+                "
+                >first name was invalid/required</span
+              >
+            </p>
+          </div>
+          <div class="field">
+            <label class="label">Last Name</label>
+            <div class="control">
+              <input
+                formControlName="last_name"
+                class="input"
+                type="text"
+                placeholder="please enter last name"
+              />
+            </div>
+            <p class="help is-danger">
+              <span
+                *ngIf="
+                  last_name.invalid && (last_name.dirty || last_name.touched)
+                "
+                >last name was invalid/required</span
+              >
+            </p>
+          </div>
+          <div class="field">
+            <label class="label">Email</label>
+            <div class="control">
+              <input
+                formControlName="email"
+                class="input"
+                type="text"
+                placeholder="abc@gmail.com"
+              />
+            </div>
+            <p class="help is-danger">
+              <span *ngIf="email.invalid && (email.dirty || email.touched)"
+                >email was invalid/required</span
+              >
+            </p>
+          </div>
+          <div class="field">
+            <label class="label">Mobile Number</label>
+            <div class="control">
+              <input
+                formControlName="phone_no"
+                class="input"
+                type="text"
+                placeholder="please enter mobile number"
+              />
+            </div>
+            <p class="help is-danger">
+              <span
+                *ngIf="phone_no.invalid && (phone_no.dirty || phone_no.touched)"
+                >mobile number was invalid/required</span
+              >
+            </p>
+          </div>
+          <div class="field">
+            <label class="label">Join Date</label>
+            <div class="control">
+              <input
+                formControlName="join_date"
+                class="input"
+                type="text"
+                placeholder="YYYY-MM-DD"
+              />
+            </div>
+            <p class="help is-danger">
+              <span
+                *ngIf="
+                  join_date.invalid && (join_date.dirty || join_date.touched)
+                "
+                >date was invalid/required</span
+              >
+            </p>
+          </div>
+          <div class="field">
+            <label class="label">Job Title</label>
+            <div class="control">
+              <input
+                formControlName="job_title"
+                class="input"
+                type="text"
+                placeholder="please enter job title"
+              />
+            </div>
+            <p class="help is-danger">
+              <span
+                *ngIf="
+                  job_title.invalid && (job_title.dirty || job_title.touched)
+                "
+                >job title was invalid/required</span
+              >
+            </p>
+          </div>
+
+          <div class="field">
+            <label class="label">Manager Id</label>
+            <div class="control">
+              <input
+                formControlName="manager_id"
+                class="input"
+                type="text"
+                placeholder="MA12345T"
+              />
+            </div>
+            <p class="help is-danger">
+              <span
+                *ngIf="
+                  manager_id.invalid && (manager_id.dirty || manager_id.touched)
+                "
+                >manager id was invalid/required</span
+              >
+            </p>
+          </div>
+          <div class="field is-grouped">
+            <div class="control">
+              <button
+                [ngClass]="{ btn_disabled: !employeeForm.valid }"
+                class="button is-link"
+              >
+                Submit
+              </button>
+            </div>
+            <div class="control">
+              <button
+                (click)="showEmployeeForm()"
+                class="button is-link is-light"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <p class="title">List of employees</p>
+    <table
+      class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth"
+    >
+      <thead>
+        <tr>
+          <th>Employee Id</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Email</th>
+          <th>Mobile No</th>
+          <th>Join Date</th>
+          <th>Job Title</th>
+          <th>Manager Id</th>
+          <th><abbr title="Update Information">Update</abbr></th>
+          <th><abbr title="Delete Staff">Delete</abbr></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let employee of employees; let i = index">
+          <td>{{ employee.id }}</td>
+          <td>{{ employee.first_name }}</td>
+          <td>{{ employee.last_name }}</td>
+          <td>{{ employee.email }}</td>
+          <td>{{ employee.phone_no }}</td>
+          <td>{{ employee.join_date }}</td>
+          <td>{{ employee.job_title }}</td>
+          <td>{{ employee.manager_id }}</td>
+          <td class="has-text-centered">
+            <button class="button is-success">
+              <span class="icon is-small">
+                <i class="fas fa-edit"></i>
+              </span>
+              <span>Edit</span>
+            </button>
+          </td>
+          <td class="has-text-centered">
+            <button
+              (click)="deleteConfirmation(employee.id, employee.first_name)"
+              class="button is-danger is-outlined"
+            >
+              <span>Delete</span>
+              <span class="icon is-small">
+                <i class="fas fa-times"></i>
+              </span>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<div class="modal" [ngClass]="{ 'is-active': isModalActive }">
+  <div class="modal-background" (click)="toggleModal()"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title">Delete {{ firstName }} ?</p>
+      <button
+        class="delete"
+        aria-label="close"
+        (click)="toggleModal()"
+      ></button>
+    </header>
+    <footer class="modal-card-foot">
+      <button class="button is-danger" (click)="delete()">Delete</button>
+      <button class="button" (click)="toggleModal()">Cancel</button>
+    </footer>
+  </div>
+</div>
