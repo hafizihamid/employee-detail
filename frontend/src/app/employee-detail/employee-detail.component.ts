@@ -163,7 +163,10 @@ export class EmployeeDetailComponent implements OnInit {
     this.isSubmitted = true;
     this.employeeService
       .createEmployee(this.employeeForm.value)
-      .subscribe((response) => {});
+      .subscribe((response) => {
+        this.getList();
+        this.employeeInput = !this.employeeInput;
+      });
   }
 
   editEmployee(id) {
