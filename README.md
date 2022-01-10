@@ -1,4 +1,4 @@
-# Employee Detail CRUD
+# Employee CRUD
 
 ## frontend:
 
