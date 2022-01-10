@@ -73,5 +73,5 @@ php artisan serve
 ```
 
 
-## assessment gif:
+## Employee CRUD gif:
 ![assessment](https://user-images.githubusercontent.com/42267361/148706619-31e3e6fa-a6a9-4db5-b1cd-d34e7cc34283.gif)
